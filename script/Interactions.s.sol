@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import {console, Script} from "forge-std/Script.sol";
+import {console2, Script} from "forge-std/Script.sol";
 import {HelperConfig, CodeConstants} from "script/HelperConfig.s.sol";
 import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
 import {LinkToken} from "test/mocks/LinkToken.sol";
@@ -16,12 +16,12 @@ contract CreateSubscription is Script {
     }
 
     function createSubscription(address vrfCoordinator) public returns (uint256, address) {
-        console.log("Creating subscription on chain Id: ", block.chainid);
+        console2.log("Creating subscription on chain Id: ", block.chainid);
         vm.startBroadcast();
         uint256 subId = VRFCoordinatorV2_5Mock(vrfCoordinator).createSubscription();
         vm.stopBroadcast();
-        console.log("Your subscription ID is: ", subId);
-        console.log("Please update the subscription ID in you HelperConfig.s.sol");
+        console2.log("Your subscription ID is: ", subId);
+        console2.log("Please update the subscription ID in you HelperConfig.s.sol");
         return (subId, vrfCoordinator);
     }
 
@@ -42,9 +42,9 @@ contract FundSubscription is Script, CodeConstants {
     }
 
     function fundSubscription(address vrfCoordinator, uint256 subscriptionId, address linkToken) public {
-        console.log("Funding subscription: ", subscriptionId);
-        console.log("Using vrfCoordinator: ", vrfCoordinator);
-        console.log("On chainId: ", block.chainid);
+        console2.log("Funding subscription: ", subscriptionId);
+        console2.log("Using vrfCoordinator: ", vrfCoordinator);
+        console2.log("On chainId: ", block.chainid);
 
         if (block.chainid == LOCAL_CHAIN_ID) {
             vm.startBroadcast();
@@ -71,9 +71,9 @@ contract AddConsumer is Script {
     }
 
     function addConsumer(address contractToAddToVrf, address vrfCoordinator, uint256 subId) public {
-        console.log("Adding consumer contract: ", contractToAddToVrf);
-        console.log("Using vrfCoordinator: ", vrfCoordinator);
-        console.log("On chainId: ", block.chainid);
+        console2.log("Adding consumer contract: ", contractToAddToVrf);
+        console2.log("Using vrfCoordinator: ", vrfCoordinator);
+        console2.log("On chainId: ", block.chainid);
         vm.startBroadcast();
         VRFCoordinatorV2_5Mock(vrfCoordinator).addConsumer(subId, contractToAddToVrf);
         vm.stopBroadcast();

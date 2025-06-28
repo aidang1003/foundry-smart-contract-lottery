@@ -62,6 +62,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     /* Events */
     event RaffleEntered(address indexed player);
     event WinnerPicked(address indexed winningAddress, uint256 winningNumber);
+    event RequestedRaffleWinner(uint256 indexed requestId);
 
     /* constructor */
     constructor(
@@ -107,7 +108,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
      * @return upkeepNeeded
      * @return - ignored
      */
-    function checkUpKeep(bytes memory /* checkData */ )
+    function checkUpkeep(bytes memory /* checkData */ )
         public
         view
         returns (bool upkeepNeeded, bytes memory /* performData */ )
@@ -126,7 +127,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     // 3. Be automatically called
     function performUpkeep(bytes calldata /* performData */ ) external {
         // Check to see if enough time has passed
-        (bool upkeepNeeded,) = checkUpKeep("");
+        (bool upkeepNeeded,) = checkUpkeep("");
         if (!upkeepNeeded) {
             revert Raffle__UpKeepNotNeeded(address(this).balance, s_players.length, uint256(s_raffleState));
         }
@@ -145,7 +146,8 @@ contract Raffle is VRFConsumerBaseV2Plus {
                 VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
             )
         });
-        s_vrfCoordinator.requestRandomWords(request);
+        uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
+        emit RequestedRaffleWinner(requestId);
     }
 
     function fulfillRandomWords(
@@ -192,5 +194,9 @@ contract Raffle is VRFConsumerBaseV2Plus {
 
     function getInterval() external view returns (uint256) {
         return i_interval;
+    }
+
+    function getRecentWinner() external view returns (address) {
+        return s_recentWinner;
     }
 }
