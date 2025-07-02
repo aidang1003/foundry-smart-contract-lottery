@@ -24,6 +24,7 @@ pragma solidity 0.8.19;
 
 import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
+import {AutomationCompatibleInterface} from "@chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.sol";
 
 /**
  * @title Sample Raffle Contract
@@ -31,7 +32,7 @@ import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/V
  * @notice This contract is for creating a somple raffle
  * @dev Implements Chainlink VRFv2.5
  */
-contract Raffle is VRFConsumerBaseV2Plus {
+contract Raffle is VRFConsumerBaseV2Plus, AutomationCompatibleInterface {
     /* Errors */
     error Raffle__SendMoreEthToEnterRaffle();
     error Raffle__TrasferFailed();
@@ -114,22 +115,30 @@ contract Raffle is VRFConsumerBaseV2Plus {
      */
     function checkUpkeep(
         bytes memory /* checkData */
-    ) public view returns (bool upkeepNeeded, bytes memory /* performData */) {
+    )
+        public
+        view
+        override
+        returns (bool upkeepNeeded, bytes memory /* performData */)
+    {
         bool timeHasPassed = ((block.timestamp - s_lastTimeStamp) > i_interval);
         bool isOpen = (s_raffleState == RaffleState.OPEN);
         bool hasBalance = (address(this).balance > 0);
         bool hasPlayers = (s_players.length > 0);
 
         upkeepNeeded = timeHasPassed && isOpen && hasBalance && hasPlayers;
-        return (upkeepNeeded, "");
+        return (upkeepNeeded, "0x0");
     }
 
-    // 1. Get a random number
-    // 2. Use the random number to pick a winner
-    // 3. Be automatically called
-    function performUpkeep(bytes calldata /* performData */) external {
+    /**
+     * @dev This step will fail if the VRF is not fully funded
+     * 1. Get a random number
+     * 2. Use the random number to pick a winner
+     * 3. Be automatically called
+     */
+    function performUpkeep(bytes calldata /* performData */) external override {
         // Check to see if enough time has passed
-        (bool upkeepNeeded, ) = checkUpkeep("");
+        (bool upkeepNeeded, ) = checkUpkeep("0x0");
         if (!upkeepNeeded) {
             revert Raffle__UpKeepNotNeeded(
                 address(this).balance,
@@ -141,8 +150,8 @@ contract Raffle is VRFConsumerBaseV2Plus {
         s_raffleState = RaffleState.CALCULATING;
         // Will revert if subscription is not set and funded.
         // @dev documentation https://docs.chain.link/vrf/v2-5/getting-started
-        VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient
-            .RandomWordsRequest({
+        uint256 requestId = s_vrfCoordinator.requestRandomWords(
+            VRFV2PlusClient.RandomWordsRequest({
                 keyHash: i_keyHash,
                 subId: i_subscriptionId,
                 requestConfirmations: REQUEST_CONFIRMATIONS,
@@ -152,8 +161,9 @@ contract Raffle is VRFConsumerBaseV2Plus {
                     // Set nativePayment to true to pay for VRF requests with Sepolia ETH instead of LINK
                     VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
                 )
-            });
-        uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
+            })
+        );
+
         emit RequestedRaffleWinner(requestId);
     }
 
@@ -162,6 +172,9 @@ contract Raffle is VRFConsumerBaseV2Plus {
         uint256[] calldata randomWords
     ) internal override {
         // Checks
+        require(randomWords[0] != 0, "No number in randomWords array");
+        require(s_players.length > 0, "No players in s_players");
+        require(address(this).balance > 0, "No balance in raffle contract");
 
         // Effects (Internal contract interaction)
         uint256 indexOfWinner = randomWords[0] % s_players.length;

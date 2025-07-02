@@ -29,6 +29,7 @@ contract HelperConfig is CodeConstants, Script {
         uint256 subscriptionId;
         address link;
         address account;
+        uint256 fundingAmount;
     }
 
     // i_callbackGasLimit = callbackGasLimit;
@@ -75,9 +76,10 @@ contract HelperConfig is CodeConstants, Script {
                 vrfCoordinator: 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B, // https://docs.chain.link/vrf/v2-5/supported-networks
                 gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae, // 500 gwei key hash
                 callbackGasLimit: 500000, // 500,000 gas
-                subscriptionId: 4286828711899728779972403595352076061476510105373236979072801134783610114273,
+                subscriptionId: 4286828711899728779972403595352076061476510105373236979072801134783610114273, // Set to 0 to programmatically create a new subscription
                 link: 0x779877A7B0D9E8603169DdbD7836e478b4624789,
-                account: 0x31Fdeb452632Cb502bF145B275E0F0d98C4732D6
+                account: 0x31Fdeb452632Cb502bF145B275E0F0d98C4732D6,
+                fundingAmount: 75e18 // 75 Link
             });
     }
 
@@ -112,7 +114,8 @@ contract HelperConfig is CodeConstants, Script {
             callbackGasLimit: 500000, // 500,000 gas
             subscriptionId: subscriptionId,
             link: address(linkToken),
-            account: FOUNDRY_DEFAULT_SENDER
+            account: FOUNDRY_DEFAULT_SENDER,
+            fundingAmount: 25e18 // 25 Link
         });
 
         return localNetworkConfig;
