@@ -6,7 +6,6 @@ import {Raffle} from "src/Raffle.sol";
 import {console2} from "forge-std/console2.sol";
 import {HelperConfig} from "script/HelperConfig.s.sol";
 import {CreateSubscription, FundSubscription, AddConsumer} from "script/Interactions.s.sol";
-import {VRFCoordinatorV2Interface} from "@chainlink/contracts/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.sol";
 
 contract DeployRaffle is Script {
     HelperConfig public helperConfig;
@@ -39,16 +38,16 @@ contract DeployRaffle is Script {
             console2.log("Copy Subscription ID to your HelperConfig.s.sol"); // Don't want to create more subscription IDs
 
             helperConfig.setConfig(block.chainid, config);
-
-            FundSubscription fundSubscription = new FundSubscription();
-            fundSubscription.fundSubscription(
-                config.vrfCoordinator,
-                config.subscriptionId,
-                config.link,
-                config.account,
-                config.fundingAmount
-            );
         }
+
+        FundSubscription fundSubscription = new FundSubscription();
+        fundSubscription.fundSubscription(
+            config.vrfCoordinator,
+            config.subscriptionId,
+            config.link,
+            config.account,
+            config.fundingAmount
+        );
 
         vm.startBroadcast(config.account);
 
@@ -73,15 +72,4 @@ contract DeployRaffle is Script {
 
         return (raffle, helperConfig);
     }
-
-    // function getSubscriptionBalance(
-    //     HelperConfig.NetworkConfig memory config
-    // ) public returns (uint96) {
-    //     vm.startBroadcast(config.account);
-    //     (uint96 subscriptionBalance, , , ) = VRFCoordinatorV2Interface(
-    //         config.vrfCoordinator
-    //     ).getSubscription(uint64(config.subscriptionId));
-    //     vm.stopBroadcast();
-    //     return subscriptionBalance;
-    // }
 }
