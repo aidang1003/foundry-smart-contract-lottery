@@ -64,3 +64,10 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+### Guarenteed contract verification
+Swap the contract address with the address of most recently deployed contract
+
+`forge verify-contract 0xA8E9111c49B67FEbbB98B4820f5Fd49D90A2e09c src/Raffle.sol:Raffle --etherscan-api-key $ETHERSCAN_API_KEY --rpc-url $SEPOLIA_RPC_URL --show-standard-json-input > json.json`
+
+Script returns standard json input to json.json which is used to verify the contract on etherscan

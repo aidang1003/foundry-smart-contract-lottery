@@ -7,8 +7,9 @@ import {HelperConfig, CodeConstants} from "script/HelperConfig.s.sol";
 import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
 import {LinkToken} from "test/mocks/LinkToken.sol";
 import {DevOpsTools} from "lib/foundry-devops/src/DevOpsTools.sol";
-import {VRFCoordinatorV2Interface} from "@chainlink/contracts/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.sol";
-import {VRFCoordinatorV2_5} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFCoordinatorV2_5.sol";
+
+// import {VRFCoordinatorV2Interface} from "@chainlink/contracts/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.sol";
+// import {VRFCoordinatorV2_5} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFCoordinatorV2_5.sol";
 
 contract CreateSubscription is Script {
     function createSubscriptionUsingConfig() public returns (uint256, address) {
@@ -113,9 +114,8 @@ contract FundSubscription is Script, CodeConstants {
         address account,
         uint256 subscriptionId
     ) public returns (uint256) {
-        console2.log("Entered getSubscriptionBalance");
         vm.startBroadcast(account);
-        (s_subscriptionBalance, , , , ) = VRFCoordinatorV2_5(vrfCoordinator)
+        (s_subscriptionBalance, , , , ) = VRFCoordinatorV2_5Mock(vrfCoordinator)
             .getSubscription(subscriptionId);
         console2.log("Get balance:", s_subscriptionBalance);
         vm.stopBroadcast();

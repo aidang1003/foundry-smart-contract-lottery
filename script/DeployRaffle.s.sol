@@ -21,7 +21,7 @@ contract DeployRaffle is Script {
         HelperConfig.NetworkConfig memory config = helperConfig.getConfig();
 
         console2.log(
-            "subscription Id ins Deploy Raffle script:",
+            "subscription Id in Deploy Raffle script:",
             config.subscriptionId
         );
 
