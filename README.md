@@ -112,6 +112,8 @@ cd html-fund-me-cu
 
 You can usually just double click the file to "run it in the browser". Or you can right click the file in your VSCode and run "open with live server" if you have the live server VSCode extension (ritwickdey.LiveServer).
 
+Run with NPX `npx http-server -p 8000`
+
 And you should see a small button that says "connect".
 
 ![Connect](connect.png)
