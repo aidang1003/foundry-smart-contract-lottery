@@ -68,6 +68,8 @@ $ cast --help
 ### Guarenteed contract verification
 Swap the contract address with the address of most recently deployed contract
 
-`forge verify-contract 0xA8E9111c49B67FEbbB98B4820f5Fd49D90A2e09c src/Raffle.sol:Raffle --etherscan-api-key $ETHERSCAN_API_KEY --rpc-url $SEPOLIA_RPC_URL --show-standard-json-input > json.json`
+`forge verify-contract 0x9dbbcb22de9093a2810f4a061c37b6a41c21aa91 src/Raffle.sol:Raffle --etherscan-api-key $ETHERSCAN_API_KEY --rpc-url $SEPOLIA_RPC_URL --compiler-version 0.8.19 --show-standard-json-input > json.json`
 
 Script returns standard json input to json.json which is used to verify the contract on etherscan
+
+- I lied, this is not guarenteed, delete the "out" and "broadcast" folder and retry if this isn't working
