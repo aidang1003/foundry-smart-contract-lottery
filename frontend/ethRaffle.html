@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>30 Second Raffle🦓🐅</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f8ffe5 0%, #fcdff1 100%);
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80');
+      background-size: cover;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+    }
+
+    .zoo-header {
+      text-align: center;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+      font-size: 2.2rem;
+      color: #ff6f00;
+      margin-top: 32px;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 8px #0002;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .zoo-emoji {
+      font-size: 2.5rem;
+      animation: zoo-bounce 1.2s infinite alternate;
+      display: inline-block;
+    }
+
+    @keyframes zoo-bounce {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-12px) scale(1.1);
+      }
+    }
+
+    .zebra-stripes {
+      background: repeating-linear-gradient(120deg,
+          #fff,
+          #fff 18px,
+          #222 18px,
+          #222 28px);
+      border-radius: 10px;
+      padding: 8px 0;
+      margin: 0 auto 12px auto;
+      width: 220px;
+      font-weight: bold;
+      color: #222;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px #0001;
+    }
+
+    .tiger-stripes {
+      background: repeating-linear-gradient(100deg,
+          #ffecb3,
+          #ffecb3 16px,
+          #ff9800 16px,
+          #ff9800 24px);
+      border-radius: 10px;
+      padding: 8px 0;
+      margin: 0 auto 12px auto;
+      width: 220px;
+      font-weight: bold;
+      color: #b45309;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px #0001;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="text-align: center; margin-top: 36px; margin-bottom: 18px;">
+    <div style="
+      display: inline-block;
+      background: #fff8e1;
+      border-radius: 20px;
+      box-shadow: 0 4px 18px #ff980033, 0 1.5px 0 #ffe0b2;
+      padding: 12px 32px;
+      border: 2px solid #ffecb3;
+    ">
+      <span
+        style="font-size: 2.6rem; font-family: 'Comic Sans MS', 'Comic Sans', cursive; letter-spacing: 2px; display: inline-block; padding: 0 18px;">
+        <span class="tiger-stripes"
+          style="display: inline-block; padding: 10px 24px; font-size: 2.2rem; border-radius: 14px; box-shadow: 0 2px 10px #ff980033;">
+          🐯 30 Second Raffle 🐯
+        </span>
+      </span>
+    </div>
+  </div>
+  <div
+    style="display: flex; flex-direction: row; justify-content: center; gap: 48px; margin-top: 40px; margin-bottom: 20px;">
+    <!-- Getter Column -->
+    <div
+      style="display: flex; flex-direction: column; gap: 20px; min-width: 700px; max-width: 820px; background: #f8f9fa; border-radius: 12px; padding: 28px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);">
+      <div
+        style="display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); min-width: 600px;">
+        <button id="getJackpot"
+          style="min-width: 120px; padding: 8px 0; background: #e3f0ff; color: #2563eb; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;">Get
+          Jackpot</button>
+        <label for="jackpotAmount" style="flex: 1; color: #333; font-size: 1rem;">Jackpot:</label>
+        <span id="jackpotAmount"
+          style="font-weight: 600; color: #2563eb; min-width: 320px; display: inline-block;"></span>
+      </div>
+
+      <div
+        style="display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); min-width: 600px;">
+        <button id="entranceFee"
+          style="min-width: 120px; padding: 8px 0; background: #e3f0ff; color: #2563eb; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;">Get
+          Entrance Fee</button>
+        <label for="entranceFeeAmount" style="flex: 1; color: #333; font-size: 1rem;">Entrance Fee:</label>
+        <span id="entranceFeeAmount"
+          style="font-weight: 600; color: #2563eb; min-width: 320px; display: inline-block;"></span>
+      </div>
+
+      <div
+        style="display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); min-width: 600px;">
+        <button id="getPlayers"
+          style="min-width: 120px; padding: 8px 0; background: #e3f0ff; color: #2563eb; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;">Get
+          Players</button>
+        <label for="playerAmount" style="flex: 1; color: #333; font-size: 1rem;">Players in Raffle:</label>
+        <span id="playerAmount"
+          style="font-weight: 600; color: #2563eb; min-width: 320px; display: inline-block;"></span>
+      </div>
+      <div
+        style="display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); margin-top: 8px; min-width: 700px;">
+        <button id="getRecentWinner"
+          style="min-width: 120px; padding: 8px 0; background: #e3f0ff; color: #2563eb; border: none; border-radius: 5px; font-weight: 500; cursor: pointer;">Get
+          Recent Winner</button>
+        <label for="recentWinner" style="flex: 1; color: #333; font-size: 1rem;">Recent Winner:</label>
+        <span id="recentWinner"
+          style="font-weight: 600; color: #2563eb; font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace; font-size: 1.01rem; min-width: 520px; display: inline-block; word-break: normal; white-space: nowrap; overflow-x: auto;"></span>
+      </div>
+    </div>
+
+    <!-- Enter Raffle Column (now also contains Connect Wallet) -->
+    <div
+      style="display: flex; flex-direction: column; gap: 20px; min-width: 320px; max-width: 340px; background: #f8f9fa; border-radius: 12px; padding: 28px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); align-items: stretch;">
+      <button id="connectButton"
+        style="padding: 12px 0; background: linear-gradient(90deg, #4f8cff 0%, #38c6ff 100%); color: white; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-bottom: 8px; transition: background 0.2s;"
+        onmouseover="this.style.background='linear-gradient(90deg, #38c6ff 0%, #4f8cff 100%)';"
+        onmouseout="this.style.background='linear-gradient(90deg, #4f8cff 0%, #38c6ff 100%)';">Connect Wallet</button>
+      <div
+        style="display: flex; flex-direction: column; gap: 12px; background: #f8f9fa; border-radius: 10px; padding: 28px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); align-items: stretch;">
+        <label for="ethAmount" style="font-weight: 500; color: #333; margin-bottom: 4px;">ETH Amount</label>
+        <input id="ethAmount" placeholder="0.01"
+          style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; outline: none; transition: border 0.2s;"
+          onfocus="this.style.borderColor='#888';" onblur="this.style.borderColor='#ccc';" />
+        <span id="ethAmountWarning"
+          style="display:none; color: #d97706; font-size: 0.98rem; margin-top: 2px; background: #fffbe6; border-radius: 4px; padding: 4px 8px;"></span>
+        <button type="button" id="enterRaffleButton"
+          style="padding: 10px 0; background: linear-gradient(90deg, #4f8cff 0%, #38c6ff 100%); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;"
+          onmouseover="this.style.background='linear-gradient(90deg, #38c6ff 0%, #4f8cff 100%)';"
+          onmouseout="this.style.background='linear-gradient(90deg, #4f8cff 0%, #38c6ff 100%)';">Enter Raffle</button>
+      </div>
+    </div>
+    <script>
+      // Warn if user enters a value other than 0.01 in the ETH Amount box
+      document.addEventListener("DOMContentLoaded", function () {
+        const ethInput = document.getElementById("ethAmount");
+        const warning = document.getElementById("ethAmountWarning");
+        if (ethInput) {
+          ethInput.addEventListener("input", function () {
+            // Accept both "0.01" and ".01" as valid
+            let val = ethInput.value.trim();
+            if (val === "") {
+              warning.style.display = "none";
+              return;
+            }
+            // Remove leading zeros for comparison
+            let normalized = val.startsWith(".") ? "0" + val : val;
+            if (normalized !== "0.01") {
+              warning.textContent = "⚠️ This is probably not the entrance fee. Please click the 'Get Entrance Fee' button to check the correct amount.";
+              warning.style.display = "block";
+            } else {
+              warning.style.display = "none";
+            }
+          });
+        }
+      });
+    </script>
+    <!-- </form> -->
+    <script src="./ethRaffle.js" type="module"></script>
+</body>
+
+
+</html>
